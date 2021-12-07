@@ -25,12 +25,9 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Game_PerfectGame()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 12; i++)
             {
-                //perfect frame
                 game.Roll(10); //strike
-                game.Roll(10); //strike !
-                game.Roll(10); //strike !!
             }
             Assert.Equal(300, game.Score());
         }
