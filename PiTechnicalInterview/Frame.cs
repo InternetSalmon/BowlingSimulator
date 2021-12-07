@@ -26,9 +26,11 @@ namespace PiTechnicalInterview
         public bool Strike { get; private set; }
         public bool Spare { get; private set; }
         public bool FinalFrame { get; private set; }
+        public Frame PreviousFrame { get; private set; }
 
-        public Frame(bool finalFrame)
+        public Frame(Frame previousFrame, bool finalFrame)
         {
+            PreviousFrame = previousFrame;
             FinalFrame = finalFrame;
             Pins = MaxPinsInFrame;
         }

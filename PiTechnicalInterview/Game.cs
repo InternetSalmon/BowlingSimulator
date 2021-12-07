@@ -39,7 +39,7 @@ namespace PiTechnicalInterview
         public int Score()
         {
             _frames = new List<Frame>();
-            Frame currentFrame = new Frame(false);
+            Frame currentFrame = new Frame(null, false);
             Frame previousFrame = currentFrame;
             _frames.Add(currentFrame);
 
@@ -52,7 +52,7 @@ namespace PiTechnicalInterview
                     //if previous frame was a strike add frame bonus
                     if(previousFrame.Strike)
                     previousFrame = currentFrame;
-                    currentFrame = new Frame(_frames.Count==8); //set finalFrame to true if creating the 10th frame
+                    currentFrame = new Frame(previousFrame, _frames.Count==8); //set finalFrame to true if creating the 10th frame
                     _frames.Add(currentFrame);
                 }
              
