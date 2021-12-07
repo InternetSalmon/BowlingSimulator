@@ -25,6 +25,7 @@ namespace PiTechnicalInterview
         public int Rolls { get; private set; }
         public bool Strike { get; private set; }
         public bool Spare { get; private set; }
+        public bool FrameCompleted { get; private set; }
         public bool FinalFrame { get; private set; }
         public Frame PreviousFrame { get; private set; }
 
@@ -52,10 +53,15 @@ namespace PiTechnicalInterview
             {
                 Strike = true;
                 Pins = MaxPinsInFrame;
+                FrameCompleted = true;
             }
             else if (Pins == 0)
             {
                 Spare = true;
+                FrameCompleted = true;
+            } else if(Rolls == 2)
+            {
+                FrameCompleted = true;
             }
             Score += pinsKnocked;
         }

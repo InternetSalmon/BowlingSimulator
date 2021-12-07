@@ -8,12 +8,24 @@ namespace PiTechnicalInterviewTests
     {
 
         [Fact]
+        public void Frame_IncompleteFrame()
+        {
+            var frame = new Frame(null, false);
+            frame.AddRoll(5);
+            Assert.False(frame.Strike);
+            Assert.False(frame.Spare);
+            Assert.False(frame.FrameCompleted);
+            Assert.Equal(5, frame.Score);
+        }
+
+        [Fact]
         public void Frame_HasStrike()
         {
             var frame = new Frame(null, false);
             frame.AddRoll(10);
             Assert.True(frame.Strike);
             Assert.False(frame.Spare);
+            Assert.True(frame.FrameCompleted);
             Assert.Equal(10, frame.Score);
         }
 
@@ -25,6 +37,7 @@ namespace PiTechnicalInterviewTests
             frame.AddRoll(6);
             Assert.False(frame.Strike);
             Assert.True(frame.Spare);
+            Assert.True(frame.FrameCompleted);
             Assert.Equal(10, frame.Score);
         }
 
@@ -36,6 +49,7 @@ namespace PiTechnicalInterviewTests
             frame.AddRoll(0);
             Assert.False(frame.Strike);
             Assert.False(frame.Spare);
+            Assert.True(frame.FrameCompleted);
             Assert.Equal(0, frame.Score);
         }
 
