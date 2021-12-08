@@ -40,19 +40,15 @@ namespace PiTechnicalInterview
         {
             _frames = new List<Frame>();
             Frame currentFrame = new Frame(null, false);
-            Frame previousFrame = currentFrame;
             _frames.Add(currentFrame);
 
             foreach (var roll in _rolls)
             {
                 //frames have a limit of two rolls, except for frame 10.
                 //increment frame if exhausted.
-                if (currentFrame.Rolls == 2)
+                if (currentFrame.FrameCompleted)
                 {
-                    //if previous frame was a strike add frame bonus
-                    if(previousFrame.Strike)
-                    previousFrame = currentFrame;
-                    currentFrame = new Frame(previousFrame, _frames.Count==8); //set finalFrame to true if creating the 10th frame
+                    currentFrame = new Frame(currentFrame, _frames.Count==8); //set finalFrame to true if creating the 10th frame
                     _frames.Add(currentFrame);
                 }
              
