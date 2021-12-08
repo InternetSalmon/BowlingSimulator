@@ -54,6 +54,32 @@ namespace PiTechnicalInterviewTests
         }
 
         [Fact]
+        public void Frame_HasTwoStrikes()
+        {
+            var frame1 = new Frame(null, false);
+            var frame2 = new Frame(frame1, false);
+            frame1.AddRoll(10);
+            frame2.AddRoll(10);
+            Assert.Equal(20, frame1.Score);
+            Assert.Equal(10, frame2.Score);
+        }
+
+        [Fact]
+        public void Frame_HasThreeStrikes()
+        {
+            var frame1 = new Frame(null, false);
+            var frame2 = new Frame(frame1, false);
+            var frame3 = new Frame(frame2, false);
+            frame1.AddRoll(10);
+            frame2.AddRoll(10);
+            frame3.AddRoll(10);
+            Assert.Equal(30, frame1.Score);
+            Assert.Equal(20, frame2.Score);
+            Assert.Equal(10, frame3.Score);
+        }
+
+
+        [Fact]
         public void Frame_InvalidNumberOfRolls()
         {
             var frame = new Frame(null, false);

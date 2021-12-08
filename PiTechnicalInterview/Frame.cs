@@ -29,6 +29,18 @@ namespace PiTechnicalInterview
         public bool FinalFrame { get; private set; }
         public Frame PreviousFrame { get; private set; }
 
+
+        private void UpdatePreviousFrames()
+        {
+            if (!(Strike || Spare) || PreviousFrame == null)
+                return;
+            // The bonus for a previous spare frame is the number of pins knocked down by the next roll.
+            PreviousFrame.AddScoreBonus(Score);
+            // The bonus for a previous strike frame is the value of pins knocked down by the next two rolls.
+            if (PreviousFrame.Strike)
+                PreviousFrame.PreviousFrame?.AddScoreBonus(MaxPinsInFrame);
+        }
+
         public Frame(Frame previousFrame, bool finalFrame)
         {
             PreviousFrame = previousFrame;
@@ -36,9 +48,17 @@ namespace PiTechnicalInterview
             Pins = MaxPinsInFrame;
         }
 
+        public void AddScoreBonus(int scoreBonus)
+        {
+            Score += scoreBonus;
+        }
+
         public void AddRoll(int pinsKnocked)
         {
             Rolls++;
+            if (FrameCompleted)
+                throw new InvalidFrameException("Frame exhausted, has been completed");
+
             if ((!FinalFrame && Rolls > 2) || (FinalFrame && Rolls > 3))
                 throw new InvalidFrameException("Frame exhausted, two rolls reached");
 
@@ -49,21 +69,26 @@ namespace PiTechnicalInterview
             if(Pins < 0)
                 throw new InvalidFrameException("Frame error, pins knocked that dont exist");
 
+            Score += pinsKnocked;
+
             if (pinsKnocked == MaxPinsInFrame)
             {
                 Strike = true;
                 Pins = MaxPinsInFrame;
                 FrameCompleted = true;
+                UpdatePreviousFrames();
             }
             else if (Pins == 0)
             {
                 Spare = true;
                 FrameCompleted = true;
-            } else if(Rolls == 2)
+                UpdatePreviousFrames();
+            }
+            else if(Rolls == 2)
             {
                 FrameCompleted = true;
+                UpdatePreviousFrames();
             }
-            Score += pinsKnocked;
         }
     }
 }
