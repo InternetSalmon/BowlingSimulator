@@ -96,5 +96,16 @@ namespace PiTechnicalInterviewTests
             Assert.Equal(37, game.Score());
         }
 
+        [Theory]
+        [InlineData(new int[] { 6, 3, 10, 9, 0, 7, 2, 10, 9, 0, 7, 3, 8, 1, 10, 9, 1, 10}, 141)]
+        [InlineData(new int[] { 3, 4, 5, 4, 10, 3, 6, 10, 10, 3, 2, 9, 1, 6, 4, 0, 0 }, 113)]
+        [InlineData(new int[] { 2, 0, 3, 2, 4, 1, 0, 3, 3, 3, 10, 2, 1, 0, 5, 3, 3, 0, 1 }, 49)]
+        public void Game_CompleteGameIntegratonTest(int[] rolls, int expectedScore)
+        {
+            foreach (var pinsKnocked in rolls)
+                game.Roll(pinsKnocked);
+            Assert.Equal(expectedScore, game.Score());
+        }
+
     }
 }

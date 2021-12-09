@@ -46,7 +46,15 @@ namespace PiTechnicalInterview
             }
             // The bonus for a previous strike frame is the value of pins knocked down by the next two rolls.
             if (PreviousFrame.Strike)
-                PreviousFrame.PreviousFrame?.AddScoreBonus(MaxPinsInFrame);
+            {
+                var PrevPrevFrame = PreviousFrame.PreviousFrame;
+                if (PrevPrevFrame != null && PrevPrevFrame.Strike)
+                    if(Strike)
+                        PrevPrevFrame?.AddScoreBonus(MaxPinsInFrame);
+                    else
+                        PrevPrevFrame?.AddScoreBonus(Rolls[0].PinsKnocked);
+            }
+
         }
 
         protected virtual void ValidateFrame()

@@ -50,6 +50,17 @@ namespace PiTechnicalInterview
                     CompleteFrame();
                 }
             }
+            else if (Pins == 0 && Rolls.Count > 1)
+            {
+                Spare = true;
+                Pins = MaxPinsInFrame;
+                if (Rolls.Count == 1)
+                    UpdatePreviousFrames();
+                else if (Rolls.Count > 2)
+                {
+                    CompleteFrame();
+                }
+            }
             else if (Rolls.Count == 3)
             {
                 CompleteFrame();
