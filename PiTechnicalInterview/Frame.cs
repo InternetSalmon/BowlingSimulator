@@ -36,10 +36,15 @@ namespace PiTechnicalInterview
 
         private void UpdatePreviousFrames()
         {
-            if (PreviousFrame == null || !(PreviousFrame.Strike || PreviousFrame.Spare))
+            if (PreviousFrame == null)
                 return;
             // The bonus for a previous spare frame is the number of pins knocked down by the next roll.
-            PreviousFrame.AddScoreBonus(Score);
+            if (PreviousFrame.Spare && Rolls.Count > 0)
+            {
+                PreviousFrame.AddScoreBonus(Rolls[0].PinsKnocked);
+            } else if (PreviousFrame.Strike) {
+                PreviousFrame.AddScoreBonus(Score);
+            }
             // The bonus for a previous strike frame is the value of pins knocked down by the next two rolls.
             if (PreviousFrame.Strike)
                 PreviousFrame.PreviousFrame?.AddScoreBonus(MaxPinsInFrame);
