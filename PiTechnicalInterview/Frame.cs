@@ -26,7 +26,6 @@ namespace PiTechnicalInterview
         public bool Strike { get; protected set; }
         public bool Spare { get; protected set; }
         public bool FrameCompleted { get; protected set; }
-        public bool FinalFrame { get; protected set; }
         public Frame PreviousFrame { get; protected set; }
 
         public Frame()
@@ -55,7 +54,7 @@ namespace PiTechnicalInterview
             if (Rolls.Count > 2)
                 throw new InvalidFrameException("Frame exhausted, max rolls reached");
 
-            if (!FinalFrame && Rolls.Count > 1 && Strike)
+            if (Rolls.Count > 1 && Strike)
                 throw new InvalidFrameException("Frame exhausted, strike occured");
         }
 
@@ -84,11 +83,10 @@ namespace PiTechnicalInterview
             }
         }
 
-        public Frame(Frame previousFrame, bool finalFrame)
+        public Frame(Frame previousFrame)
         {
             Rolls = new List<Roll>();
             PreviousFrame = previousFrame;
-            FinalFrame = finalFrame;
             Pins = MaxPinsInFrame;
         }
 

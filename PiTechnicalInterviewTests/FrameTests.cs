@@ -10,7 +10,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_IncompleteFrame()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(5));
             Assert.False(frame.Strike);
             Assert.False(frame.Spare);
@@ -21,7 +21,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_HasStrike()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(10));
             Assert.True(frame.Strike);
             Assert.False(frame.Spare);
@@ -32,7 +32,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_HasSpare()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(4));
             frame.AddRoll(new Roll(6));
             Assert.False(frame.Strike);
@@ -44,7 +44,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_GutterBalls()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(0));
             frame.AddRoll(new Roll(0));
             Assert.False(frame.Strike);
@@ -56,8 +56,8 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_HasTwoStrikes()
         {
-            var frame1 = new Frame(null, false);
-            var frame2 = new Frame(frame1, false);
+            var frame1 = new Frame(null);
+            var frame2 = new Frame(frame1);
             frame1.AddRoll(new Roll(10));
             frame2.AddRoll(new Roll(10));
             Assert.Equal(20, frame1.Score);
@@ -67,9 +67,9 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_HasThreeStrikes()
         {
-            var frame1 = new Frame(null, false);
-            var frame2 = new Frame(frame1, false);
-            var frame3 = new Frame(frame2, false);
+            var frame1 = new Frame(null);
+            var frame2 = new Frame(frame1);
+            var frame3 = new Frame(frame2);
             frame1.AddRoll(new Roll(10));
             frame2.AddRoll(new Roll(10));
             frame3.AddRoll(new Roll(10));
@@ -82,7 +82,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfRolls()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(0));
             frame.AddRoll(new Roll(0));
             Assert.Throws<InvalidFrameException>(() =>
@@ -107,7 +107,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfPinsKnocked()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(4));
             Assert.Throws<InvalidFrameException>(() =>
             {
@@ -118,7 +118,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfStrikes()
         {
-            var frame = new Frame(null, false);
+            var frame = new Frame(null);
             frame.AddRoll(new Roll(10));
             Assert.Throws<InvalidFrameException>(() =>
             {
@@ -129,7 +129,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfStrikesFinalFrame()
         {
-            var prevFrame = new Frame(null, false);
+            var prevFrame = new Frame(null);
             var frame = new FinalFrame(prevFrame);
             frame.AddRoll(new Roll(10));
             frame.AddRoll(new Roll(10));

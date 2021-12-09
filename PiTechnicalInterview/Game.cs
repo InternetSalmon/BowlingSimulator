@@ -39,7 +39,7 @@ namespace PiTechnicalInterview
         public int Score()
         {
             _frames = new List<Frame>();
-            Frame currentFrame = new Frame(null, false);
+            Frame currentFrame = new Frame(null);
             _frames.Add(currentFrame);
 
             foreach (var roll in _rolls)
@@ -51,7 +51,7 @@ namespace PiTechnicalInterview
                     if (_frames.Count==9)
                         currentFrame = new FinalFrame(currentFrame); 
                     else
-                        currentFrame = new Frame(currentFrame, false);
+                        currentFrame = new Frame(currentFrame);
                     _frames.Add(currentFrame);
                 }
                 currentFrame.AddRoll(roll);

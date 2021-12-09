@@ -13,7 +13,7 @@ namespace PiTechnicalInterview
     public class FinalFrame : Frame
     {
         
-        public FinalFrame(Frame previousFrame) : base(previousFrame, true) { }
+        public FinalFrame(Frame previousFrame) : base(previousFrame) { }
 
         protected override void ValidateFrame()
         {
