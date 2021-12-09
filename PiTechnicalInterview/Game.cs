@@ -48,7 +48,7 @@ namespace PiTechnicalInterview
                 //increment frame if exhausted.
                 if (currentFrame.FrameCompleted)
                 {
-                    currentFrame = new Frame(currentFrame, _frames.Count==8); //set finalFrame to true if creating the 10th frame
+                    currentFrame = new Frame(currentFrame, _frames.Count==9); //set finalFrame to true if creating the 10th frame
                     _frames.Add(currentFrame);
                 }
              
@@ -56,7 +56,6 @@ namespace PiTechnicalInterview
             }
 
             LogFrames(_frames);
-
 
             int total = 0;
             foreach(var frame in Frames)

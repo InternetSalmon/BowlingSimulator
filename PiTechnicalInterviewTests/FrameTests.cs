@@ -129,7 +129,9 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfStrikesFinalFrame()
         {
-            var frame = new Frame(null, true);
+            var prevFrame = new Frame(null, false);
+            var frame = new Frame(prevFrame, true);
+            frame.AddRoll(10);
             frame.AddRoll(10);
             frame.AddRoll(10);
             Assert.Throws<InvalidFrameException>(() =>
