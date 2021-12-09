@@ -15,6 +15,15 @@ namespace PiTechnicalInterview
         
         public FinalFrame(Frame previousFrame) : base(previousFrame, true) { }
 
+        protected override void ValidateFrame()
+        {
+            if (Rolls.Count > 3)
+                throw new InvalidFrameException("Frame exhausted, max rolls reached");
+
+            if ( Rolls.Count > 3 && Strike)
+                throw new InvalidFrameException("Frame exhausted, strike occured");
+        }
+
         // Handle adding the score of a third roll to the previous frame.
         protected override void UpdatePreviousFrames()
         {

@@ -50,19 +50,13 @@ namespace PiTechnicalInterview
                 PreviousFrame.PreviousFrame?.AddScoreBonus(MaxPinsInFrame);
         }
 
-        private void ValidateFrame()
+        protected virtual void ValidateFrame()
         {
-            if (FrameCompleted)
-                throw new InvalidFrameException("Frame exhausted, has been completed");
-
-            if ((!FinalFrame && Rolls.Count > 2) || (FinalFrame && Rolls.Count > 3))
+            if (Rolls.Count > 2)
                 throw new InvalidFrameException("Frame exhausted, max rolls reached");
 
-            if ((!FinalFrame && Rolls.Count > 1 && Strike) || (FinalFrame && Rolls.Count > 3 && Strike))
+            if (!FinalFrame && Rolls.Count > 1 && Strike)
                 throw new InvalidFrameException("Frame exhausted, strike occured");
-
-            if (Pins < 0)
-                throw new InvalidFrameException("Frame error, pins knocked that dont exist");
         }
 
         protected void CompleteFrame()
@@ -105,9 +99,15 @@ namespace PiTechnicalInterview
 
         public void AddRoll(Roll roll)
         {
+            if (FrameCompleted)
+                throw new InvalidFrameException("Frame exhausted, has been completed");
 
             Rolls.Add(roll);
+
             Pins -= roll.PinsKnocked;
+            if (Pins < 0)
+                throw new InvalidFrameException("Frame error, pins knocked that dont exist");
+
             Score += roll.PinsKnocked;
 
             ValidateFrame();
