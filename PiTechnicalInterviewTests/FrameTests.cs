@@ -94,7 +94,7 @@ namespace PiTechnicalInterviewTests
         [Fact]
         public void Frame_InvalidNumberOfRollsFinalFrame()
         {
-            var frame = new Frame(null, true);
+            var frame = new FinalFrame(null);
             frame.AddRoll(new Roll(0));
             frame.AddRoll(new Roll(0));
             frame.AddRoll(new Roll(0));
@@ -130,7 +130,7 @@ namespace PiTechnicalInterviewTests
         public void Frame_InvalidNumberOfStrikesFinalFrame()
         {
             var prevFrame = new Frame(null, false);
-            var frame = new Frame(prevFrame, true);
+            var frame = new FinalFrame(prevFrame);
             frame.AddRoll(new Roll(10));
             frame.AddRoll(new Roll(10));
             frame.AddRoll(new Roll(10));

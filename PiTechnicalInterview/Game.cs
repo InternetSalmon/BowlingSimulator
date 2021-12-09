@@ -45,13 +45,15 @@ namespace PiTechnicalInterview
             foreach (var roll in _rolls)
             {
                 //frames have a limit of two rolls, except for frame 10.
-                //increment frame if exhausted.
                 if (currentFrame.FrameCompleted)
                 {
-                    currentFrame = new Frame(currentFrame, _frames.Count==9); //set finalFrame to true if creating the 10th frame
+                    //instantiate finalFrame to if creating the 10th frame
+                    if (_frames.Count==9)
+                        currentFrame = new FinalFrame(currentFrame); 
+                    else
+                        currentFrame = new Frame(currentFrame, false);
                     _frames.Add(currentFrame);
                 }
-             
                 currentFrame.AddRoll(roll);
             }
 

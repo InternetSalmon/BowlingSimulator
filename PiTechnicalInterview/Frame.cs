@@ -18,23 +18,23 @@ namespace PiTechnicalInterview
     /// </summary>
     public class Frame
     {
-        private const int MaxPinsInFrame = 10;
-        private int Pins { get; set; }
+        protected const int MaxPinsInFrame = 10;
+        protected int Pins { get; set; }
 
-        public int Score { get; private set; }
-        public List<Roll> Rolls { get; private set; }
-        public bool Strike { get; private set; }
-        public bool Spare { get; private set; }
-        public bool FrameCompleted { get; private set; }
-        public bool FinalFrame { get; private set; }
-        public Frame PreviousFrame { get; private set; }
+        public int Score { get; protected set; }
+        public List<Roll> Rolls { get; protected set; }
+        public bool Strike { get; protected set; }
+        public bool Spare { get; protected set; }
+        public bool FrameCompleted { get; protected set; }
+        public bool FinalFrame { get; protected set; }
+        public Frame PreviousFrame { get; protected set; }
 
         public Frame()
         {
             Rolls = new List<Roll>();
         }
 
-        private void UpdatePreviousFrames()
+        protected virtual void UpdatePreviousFrames()
         {
             if (PreviousFrame == null)
                 return;
@@ -65,10 +65,29 @@ namespace PiTechnicalInterview
                 throw new InvalidFrameException("Frame error, pins knocked that dont exist");
         }
 
-        private void CompleteFrame()
+        protected void CompleteFrame()
         {
             FrameCompleted = true;
             UpdatePreviousFrames();
+        }
+
+        protected virtual void ProcessRoll(Roll roll)
+        {
+            if (roll.PinsKnocked == MaxPinsInFrame)
+            {
+                Strike = true;
+                Pins = MaxPinsInFrame;
+                CompleteFrame();
+            }
+            else if (Pins == 0)
+            {
+                Spare = true;
+                CompleteFrame();
+            }
+            else if (Rolls.Count == 2)
+            {
+                CompleteFrame();
+            }
         }
 
         public Frame(Frame previousFrame, bool finalFrame)
@@ -92,33 +111,7 @@ namespace PiTechnicalInterview
             Score += roll.PinsKnocked;
 
             ValidateFrame();
-
-            if (roll.PinsKnocked == MaxPinsInFrame)
-            {
-                Strike = true;
-                Pins = MaxPinsInFrame;
-                if(!FinalFrame)
-                    CompleteFrame();
-                else if(FinalFrame)
-                {
-                    if (Rolls.Count == 1)
-                        UpdatePreviousFrames();
-                    else if (Rolls.Count > 2)
-                    {
-                        PreviousFrame.AddScoreBonus(MaxPinsInFrame);
-                        FrameCompleted = true;
-                    }
-                }
-            }
-            else if (Pins == 0 && !FinalFrame)
-            {
-                Spare = true;
-                CompleteFrame();
-            }
-            else if((Rolls.Count == 2 && !FinalFrame) || (Rolls.Count == 3 && FinalFrame))
-            {
-                CompleteFrame();
-            }
+            ProcessRoll(roll);
         }
     }
 }
