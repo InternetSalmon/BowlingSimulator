@@ -22,13 +22,17 @@ namespace PiTechnicalInterview
         private int Pins { get; set; }
 
         public int Score { get; private set; }
-        public int Rolls { get; private set; }
+        public List<Roll> Rolls { get; private set; }
         public bool Strike { get; private set; }
         public bool Spare { get; private set; }
         public bool FrameCompleted { get; private set; }
         public bool FinalFrame { get; private set; }
         public Frame PreviousFrame { get; private set; }
 
+        public Frame()
+        {
+            Rolls = new List<Roll>();
+        }
 
         private void UpdatePreviousFrames()
         {
@@ -46,10 +50,10 @@ namespace PiTechnicalInterview
             if (FrameCompleted)
                 throw new InvalidFrameException("Frame exhausted, has been completed");
 
-            if ((!FinalFrame && Rolls > 2) || (FinalFrame && Rolls > 3))
+            if ((!FinalFrame && Rolls.Count > 2) || (FinalFrame && Rolls.Count > 3))
                 throw new InvalidFrameException("Frame exhausted, max rolls reached");
 
-            if ((!FinalFrame && Rolls > 1 && Strike) || (FinalFrame && Rolls > 3 && Strike))
+            if ((!FinalFrame && Rolls.Count > 1 && Strike) || (FinalFrame && Rolls.Count > 3 && Strike))
                 throw new InvalidFrameException("Frame exhausted, strike occured");
 
             if (Pins < 0)
@@ -64,6 +68,7 @@ namespace PiTechnicalInterview
 
         public Frame(Frame previousFrame, bool finalFrame)
         {
+            Rolls = new List<Roll>();
             PreviousFrame = previousFrame;
             FinalFrame = finalFrame;
             Pins = MaxPinsInFrame;
@@ -74,16 +79,16 @@ namespace PiTechnicalInterview
             Score += scoreBonus;
         }
 
-        public void AddRoll(int pinsKnocked)
+        public void AddRoll(Roll roll)
         {
 
-            Rolls++;
-            Pins -= pinsKnocked;
-            Score += pinsKnocked;
+            Rolls.Add(roll);
+            Pins -= roll.PinsKnocked;
+            Score += roll.PinsKnocked;
 
             ValidateFrame();
 
-            if (pinsKnocked == MaxPinsInFrame)
+            if (roll.PinsKnocked == MaxPinsInFrame)
             {
                 Strike = true;
                 Pins = MaxPinsInFrame;
@@ -91,9 +96,9 @@ namespace PiTechnicalInterview
                     CompleteFrame();
                 else if(FinalFrame)
                 {
-                    if (Rolls == 1)
+                    if (Rolls.Count == 1)
                         UpdatePreviousFrames();
-                    else if (Rolls > 2)
+                    else if (Rolls.Count > 2)
                     {
                         PreviousFrame.AddScoreBonus(MaxPinsInFrame);
                         FrameCompleted = true;
@@ -105,7 +110,7 @@ namespace PiTechnicalInterview
                 Spare = true;
                 CompleteFrame();
             }
-            else if((Rolls == 2 && !FinalFrame) || (Rolls == 3 && FinalFrame))
+            else if((Rolls.Count == 2 && !FinalFrame) || (Rolls.Count == 3 && FinalFrame))
             {
                 CompleteFrame();
             }

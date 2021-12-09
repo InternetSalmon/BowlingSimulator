@@ -52,7 +52,7 @@ namespace PiTechnicalInterview
                     _frames.Add(currentFrame);
                 }
              
-                currentFrame.AddRoll(roll.PinsKnocked);
+                currentFrame.AddRoll(roll);
             }
 
             LogFrames(_frames);
